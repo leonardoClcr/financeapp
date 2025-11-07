@@ -1,1 +1,1 @@
-const name = "";
+import "dotenv/config.js";
