@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky",
-    "postinstall": "npx husky init"
+    "postinstall": "npx husky init",
+    "migrations": "node src/db/postgres/migrations/exec.js"
   },
   "keywords": [],
   "author": "",
