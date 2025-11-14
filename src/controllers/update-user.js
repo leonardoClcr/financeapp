@@ -1,7 +1,14 @@
-import { badRequest, ok, serverError } from "../controllers/helpers.js";
+import { badRequest, ok, serverError } from "../controllers/helpers/http.js";
 import { EmailAlreadyInUseError } from "../errors/user.js";
 import { UpdateUserUseCase } from "../use-cases/update-user.js";
-import validator from "validator";
+import {
+  checkIfEmailIsValid,
+  checkIfIdIsValid,
+  checkIfPasswordIsValid,
+  invalidEmailResponse,
+  invalidIdResponse,
+  invalidPasswordResponse,
+} from "./helpers/user.js";
 
 export class UpdateUserController {
   async execute(httpRequest) {
@@ -9,11 +16,9 @@ export class UpdateUserController {
       // validar o id sendo passado
 
       const userId = httpRequest.params.userId;
-      const isIdValid = validator.isUUID(userId);
+      const isIdValid = checkIfIdIsValid(userId);
       if (!isIdValid) {
-        return badRequest({
-          message: "The provided id is not valid.",
-        });
+        return invalidIdResponse();
       }
       const updatedUserParams = httpRequest.body;
 
@@ -33,24 +38,20 @@ export class UpdateUserController {
       // verificar a senha
 
       if (updatedUserParams.password) {
-        const passwordIsNotValid = updatedUserParams.password.length < 6;
+        const passowordIsValid = checkIfPasswordIsValid(httpRequest.password);
 
-        if (passwordIsNotValid) {
-          return badRequest({
-            message: "Password must be at least 6 characters.",
-          });
+        if (!passowordIsValid) {
+          return invalidPasswordResponse();
         }
       }
 
       // verificar o e-mail
 
       if (updatedUserParams.email) {
-        const emailIsValid = validator.isEmail(updatedUserParams.email);
+        const emailIsValid = checkIfEmailIsValid(updatedUserParams.email);
 
         if (!emailIsValid) {
-          return badRequest({
-            message: `The email ${updatedUserParams.email} is not valid. Please provided a valid one.`,
-          });
+          return invalidEmailResponse();
         }
       }
 

@@ -10,9 +10,8 @@ export class CreateUserUseCase {
     const postgresGetUserByEmailRepository =
       new PostgresGetUserByEmailRepository();
 
-    const userWithProvidedemail = postgresGetUserByEmailRepository.execute(
-      createUserParams.email,
-    );
+    const userWithProvidedemail =
+      await postgresGetUserByEmailRepository.execute(createUserParams.email);
 
     if (userWithProvidedemail) {
       throw new EmailAlreadyInUseError(createUserParams.email);
