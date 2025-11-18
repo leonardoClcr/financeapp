@@ -8,12 +8,14 @@ import {
 } from "./src/controllers/index.js";
 import {
   PostgresCreateUserRepository,
+  PostgresDeleteUserRepository,
   PostgresGetUserByEmailRepository,
   PostgresGetUserByIdRepository,
   PostgresUpdateUserRepository,
 } from "./src/repositories/postgres/index.js";
 import {
   CreateUserUseCase,
+  DeleteUserUseCase,
   GetUserByIdUseCase,
   UpdateUserUseCase,
 } from "./src/use-cases/index.js";
@@ -62,7 +64,9 @@ app.patch("/api/users/:userId", async (request, response) => {
 });
 
 app.delete("/api/users/:userId", async (request, response) => {
-  const deleteUserController = new DeleteUserController();
+  const postgresDeleteUserRepository = new PostgresDeleteUserRepository();
+  const deleteUserUseCase = new DeleteUserUseCase(postgresDeleteUserRepository);
+  const deleteUserController = new DeleteUserController(deleteUserUseCase);
   const { statusCode, body } = await deleteUserController.execute(request);
   response.status(statusCode).send(body);
 });
