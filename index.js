@@ -9,8 +9,12 @@ import {
 import {
   PostgresCreateUserRepository,
   PostgresGetUserByEmailRepository,
+  PostgresGetUserByIdRepository,
 } from "./src/repositories/postgres/index.js";
-import { CreateUserUseCase } from "./src/use-cases/index.js";
+import {
+  CreateUserUseCase,
+  GetUserByIdUseCase,
+} from "./src/use-cases/index.js";
 
 const app = express();
 
@@ -31,7 +35,11 @@ app.post("/api/users", async (request, response) => {
 });
 
 app.get("/api/users/:userId", async (request, response) => {
-  const getUserByIdController = new GetUserByIdController();
+  const postgresGetUserByIdRepository = new PostgresGetUserByIdRepository();
+  const getUserByIdUseCase = new GetUserByIdUseCase(
+    postgresGetUserByIdRepository,
+  );
+  const getUserByIdController = new GetUserByIdController(getUserByIdUseCase);
   const { statusCode, body } = await getUserByIdController.execute(request);
 
   response.status(statusCode).send(body);
