@@ -4,7 +4,7 @@ import {
   PostgresCreateUserRepository,
   PostgresUpdateUserRepository,
   PostgresDeleteUserRepository,
-} from "../../repositories/postgres/index.js";
+} from "../../repositories/postgres/user/index.js";
 import {
   GetUserByIdUseCase,
   CreateUserUseCase,
