@@ -10,7 +10,7 @@ import {
   CreateUserUseCase,
   UpdateUserUseCase,
   DeleteUserUseCase,
-} from "../../use-cases/index.js";
+} from "../../use-cases/user/index.js";
 import {
   GetUserByIdController,
   CreateUserController,
