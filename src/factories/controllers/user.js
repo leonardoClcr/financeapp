@@ -4,13 +4,13 @@ import {
   PostgresCreateUserRepository,
   PostgresUpdateUserRepository,
   PostgresDeleteUserRepository,
-} from "../../repositories/postgres/user/index.js";
+} from "../../repositories/postgres/index.js";
 import {
   GetUserByIdUseCase,
   CreateUserUseCase,
   UpdateUserUseCase,
   DeleteUserUseCase,
-} from "../../use-cases/user/index.js";
+} from "../../use-cases/index.js";
 import {
   GetUserByIdController,
   CreateUserController,
