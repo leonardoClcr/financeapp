@@ -1,4 +1,4 @@
-import { userNotFoundResponse } from "../../controllers/helpers/user.js";
+import { UserNotFoundError } from "../../errors/user.js";
 
 export class GetTransactionByUserIdUseCase {
   constructor(
@@ -17,7 +17,7 @@ export class GetTransactionByUserIdUseCase {
     );
 
     if (!user) {
-      return userNotFoundResponse;
+      throw new UserNotFoundError();
     }
 
     // chamar o repository
